@@ -1,4 +1,4 @@
-module github.com/evermile/stuartclient
+module github.com/evermile/stuart-client-go
 
 go 1.18
 
