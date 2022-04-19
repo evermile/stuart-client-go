@@ -5,8 +5,8 @@ import "time"
 type RequestType string
 
 const (
-	PickupType  RequestType = "pickup"
-	DropoffType RequestType = "dropoff"
+	PickupType  RequestType = "picking"
+	DropoffType RequestType = "delivering"
 )
 
 /**
