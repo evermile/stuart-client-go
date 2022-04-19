@@ -3,6 +3,7 @@ package stuartclient
 import (
 	"context"
 	"fmt"
+	"strconv"
 )
 
 func (c ClientWrapper) CreateJob(ctx context.Context, model JobRequestModel) (*JobResponseModel, error) {
@@ -56,8 +57,38 @@ func (c ClientWrapper) GetJobOriginEta(ctx context.Context, model JobRequestMode
 	return resp.Eta, nil
 }
 
-func (c ClientWrapper) GetJob(ctx context.Context, id string) (*JobResponseModel, error) {
-	builder := c.newRequest("/v2/jobs/" + id)
+func (c ClientWrapper) GetJobs(ctx context.Context, options GetJobsOptions) ([]JobResponseModel, error) {
+
+	builder := c.newRequest("/v2/jobs/").
+		Param("active", strconv.FormatBool(options.Active))
+
+	if options.Status != "" {
+		builder.Param("status", string(options.Status))
+	}
+	if options.Page > 0 {
+		builder.ParamInt("page", options.Page)
+	}
+	if options.PerPage > 0 {
+		builder.ParamInt("per_page", options.PerPage)
+	}
+	if options.ClientReference != "" {
+		builder.Param("client_reference", string(options.ClientReference))
+	}
+	if options.Order != "" {
+		builder.Param("order", string(options.Order))
+	}
+
+	var resp []JobResponseModel
+	builder.ToJSON(resp)
+	if err := builder.ToJSON(&resp).Fetch(ctx); err != nil {
+		return nil, err
+	}
+
+	return resp, nil
+}
+
+func (c ClientWrapper) GetJob(ctx context.Context, jobId string) (*JobResponseModel, error) {
+	builder := c.newRequest("/v2/jobs/" + jobId)
 	resp := new(JobResponseModel)
 	if err := builder.ToJSON(resp).Fetch(ctx); err != nil {
 		return nil, err
@@ -78,7 +109,7 @@ func (c ClientWrapper) GetSchedulingSlots(ctx context.Context, zone string, requ
 
 func (c ClientWrapper) UpdateJob(ctx context.Context, jobId string, model JobRequestModel) (*JobResponseModel, error) {
 	builder := c.newRequest("/v2/jobs/" + jobId).
-		Method("PATCH").
+		Patch().
 		BodyJSON(model)
 
 	resp := new(JobResponseModel)

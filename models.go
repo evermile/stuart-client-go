@@ -101,9 +101,19 @@ type JobResponseModel struct {
 	Distance       float64                   `json:"distance"`
 	Duration       int                       `json:"duration"`
 	Deliveries     []DeliveriesResponseModel `json:"deliveries"`
-	Driver         string                    `json:"driver"`
+	Driver         DriverModel               `json:"driver"`
 	Pricing        PricingModel              `json:"pricing"`
 	Rating         string                    `json:"rating"`
+}
+
+type DriverModel struct {
+	Id            int     `json:"id"`
+	DisplayName   string  `json:"display_name"`
+	Phone         string  `json:"phone"`
+	PictureUrl    string  `json:"picture_url"`
+	TransportType string  `json:"transport_type"`
+	Latitude      float64 `json:"latitude"`
+	Longitude     float64 `json:"longitude"`
 }
 
 type PickupDropoffResponseModel struct {
@@ -213,4 +223,37 @@ type ScheduleType struct {
 	ParcelShop ParcelShopType `json:"parcel_shop"`
 	From       time.Time      `json:"from"`
 	To         time.Time      `json:"to"`
+}
+
+/**
+Get Job Options
+*/
+
+type OrderValuesType string
+
+const (
+	ORDER_START_INVITING_AT_DESC OrderValuesType = "start_inviting_at:desc"
+	ORDER_PICKUP_AT_DESC         OrderValuesType = "pickup_at:desc"
+	ORDER_PICKUP_AT_ASC          OrderValuesType = "pickup_at:asc"
+)
+
+type StatusType string
+
+const (
+	STATUS_NEW         StatusType = "new"
+	STATUS_SCHEDULED   StatusType = "scheduled"
+	STATUS_SEARCHING   StatusType = "searching"
+	STATUS_IN_PROGRESS StatusType = "in_progress"
+	STATUS_FINISHED    StatusType = "finished"
+	STATUS_CANCELLED   StatusType = "cancelled"
+	STATUS_EXPIRED     StatusType = "expired"
+)
+
+type GetJobsOptions struct {
+	Status          StatusType
+	Page            int
+	PerPage         int
+	ClientReference string
+	Active          bool
+	Order           OrderValuesType
 }
