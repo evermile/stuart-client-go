@@ -41,14 +41,14 @@ func (c ClientWrapper) newRequest(suffix string) *requests.Builder {
 		AddValidator(StuartResponseHandler)
 }
 
-func NewClient(ctx context.Context, envType EnvEndpointType, apiClientId string, apiClientSecret string) (client *ClientWrapper) {
+func NewClient(ctx context.Context, envType EnvEndpointType, apiClientId string, apiClientSecret string) (client ClientInterface) {
 	config := new(creds.Config)
 	config.ClientID = apiClientId
 	config.ClientSecret = apiClientSecret
 	config.TokenURL = envType.GetOAuthURL()
 
 	httpClient := config.Client(ctx)
-	return &ClientWrapper{
+	return ClientWrapper{
 		Client:      *httpClient,
 		envEndpoint: envType,
 	}
