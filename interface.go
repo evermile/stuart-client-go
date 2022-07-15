@@ -1,6 +1,7 @@
 package stuartclient
 
 import (
+	_ "bytes"
 	"context"
 	"github.com/paulmach/go.geojson"
 )
@@ -11,7 +12,7 @@ type ClientInterface interface {
 	ValidateAddress(ctx context.Context, address string, addressType RequestType, phone string) (bool, error)
 	GetZoneCoverage(ctx context.Context, zone string, addressType RequestType) (*geojson.FeatureCollection, error)
 	GetParcelShops(ctx context.Context, address string, date string) (*ParcelShopsResponse, error)
-	CreateJob(ctx context.Context, model JobRequestModel) (*JobResponseModel, error)
+	CreateJob(ctx context.Context, model JobRequestModel) ([]byte, error)
 	GetJobPricing(ctx context.Context, model JobRequestModel) (*PricingProposalModel, error)
 	ValidateJobParameters(ctx context.Context, model JobRequestModel) (bool, error)
 	GetJobOriginEta(ctx context.Context, model JobRequestModel) (int, error)

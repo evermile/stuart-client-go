@@ -1,21 +1,21 @@
 package stuartclient
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"strconv"
 )
 
-func (c ClientWrapper) CreateJob(ctx context.Context, model JobRequestModel) (*JobResponseModel, error) {
+func (c ClientWrapper) CreateJob(ctx context.Context, model JobRequestModel) ([]byte, error) {
 	builder := c.newRequest("/v2/jobs").
 		BodyJSON(model)
 
-	resp := new(JobResponseModel)
-	if err := builder.ToJSON(resp).Fetch(ctx); err != nil {
-		return nil, err
+	var resp bytes.Buffer
+	if err := builder.ToBytesBuffer(&resp).Fetch(ctx); err != nil {
+		return []byte(" "), err
 	}
-
-	return resp, nil
+	return resp.Bytes(), nil
 }
 
 func (c ClientWrapper) GetJobPricing(ctx context.Context, model JobRequestModel) (*PricingProposalModel, error) {

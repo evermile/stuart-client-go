@@ -18,10 +18,11 @@ type JobRequestModel struct {
 }
 
 type JobModel struct {
-	AssignmentCode string                `json:"assignment_code"`
-	Pickups        []PickupRequestModel  `json:"pickups"`
-	Dropoffs       []DropoffRequestModel `json:"dropoffs"`
-	AccessCodes    []AccessCodesModel    `json:"access_codes"`
+	AssignmentCode  string                `json:"assignment_code"`
+	ClientReference string                `json:"client_reference"`
+	Pickups         []PickupRequestModel  `json:"pickups"`
+	Dropoffs        []DropoffRequestModel `json:"dropoffs"`
+	AccessCodes     []AccessCodesModel    `json:"access_codes"`
 }
 
 type ContactDetails struct {
@@ -103,6 +104,8 @@ type JobResponseModel struct {
 	Deliveries     []DeliveriesResponseModel `json:"deliveries"`
 	Driver         DriverModel               `json:"driver"`
 	Pricing        PricingModel              `json:"pricing"`
+	Cancellation   CancellationResponseModel `json:"cancelation"`
+	Eta            EtaModel                  `json:"eta"`
 	Rating         string                    `json:"rating"`
 }
 
