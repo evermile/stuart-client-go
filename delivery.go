@@ -18,13 +18,20 @@ func (c ClientWrapper) GetDriverPhoneNumber(ctx context.Context, deliveryId stri
 	return resp.PhoneNumber, nil
 }
 
-func (c ClientWrapper) CancelDelivery(ctx context.Context, deliveryId string, cancelReq CancelRequestModel) error {
+func (c ClientWrapper) CancelDelivery(ctx context.Context, deliveryId string, cancelReq *CancelRequestModel) (int, error) {
+	// var status int
+	var resp string
 	builder := c.newRequest(fmt.Sprintf("/v2/deliveries/%s/cancel", deliveryId)).
-		BodyJSON(cancelReq)
-
-	if err := builder.Fetch(ctx); err != nil {
-		return err
+		BodyBytes([]byte(``))
+	if cancelReq != nil {
+		builder.Param("public_reason_key", string(cancelReq.PublicReasonKey)).
+			Param("comment", cancelReq.Comment)
 	}
-
-	return nil
+	if err := builder.ToString(&resp).Fetch(ctx); err != nil {
+		fmt.Println(err.Error())
+		return 0, err
+	} else {
+		fmt.Println(resp)
+		return 201, nil
+	}
 }

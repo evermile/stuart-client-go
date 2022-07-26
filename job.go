@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	_ "io"
+	_ "net/http"
 	"strconv"
 )
 
@@ -120,13 +122,20 @@ func (c ClientWrapper) UpdateJob(ctx context.Context, jobId string, model JobReq
 	return resp, nil
 }
 
-func (c ClientWrapper) CancelJob(ctx context.Context, jobId string, cancelReq CancelRequestModel) error {
+func (c ClientWrapper) CancelJob(ctx context.Context, jobId string, cancelReq *CancelRequestModel) (int, error) {
+	// var status int
+	var resp string
 	builder := c.newRequest(fmt.Sprintf("/v2/jobs/%s/cancel", jobId)).
-		BodyJSON(cancelReq)
-
-	if err := builder.Fetch(ctx); err != nil {
-		return err
+		BodyBytes([]byte(``))
+	if cancelReq != nil {
+		builder.Param("public_reason_key", string(cancelReq.PublicReasonKey)).
+			Param("comment", cancelReq.Comment)
 	}
-
-	return nil
+	if err := builder.ToString(&resp).Fetch(ctx); err != nil {
+		fmt.Println(err.Error())
+		return 0, err
+	} else {
+		fmt.Println(resp)
+		return 201, nil
+	}
 }
