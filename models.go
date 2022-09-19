@@ -18,6 +18,7 @@ type JobRequestModel struct {
 }
 
 type JobModel struct {
+	PickupAt        time.Time             `json:"pickup_at"`
 	AssignmentCode  string                `json:"assignment_code"`
 	ClientReference string                `json:"client_reference"`
 	Pickups         []PickupRequestModel  `json:"pickups"`
