@@ -53,22 +53,22 @@ const (
 )
 
 type PickupRequestModel struct {
-	Address     string             `json:"address"`
-	Comment     string             `json:"comment"`
-	Contact     ContactDetails     `json:"contact"`
-	AccessCodes []AccessCodesModel `json:"access_codes"`
+	Address string         `json:"address"`
+	Comment string         `json:"comment"`
+	Contact ContactDetails `json:"contact"`
+	//	AccessCodes []AccessCodesModel `json:"access_codes"`
 }
 
 type DropoffRequestModel struct {
-	PackageType                PackageType        `json:"package_type"`
-	PackageDescription         string             `json:"package_description"`
-	ClientReference            string             `json:"client_reference"`
-	Address                    string             `json:"address"`
-	Comment                    string             `json:"comment,omitempty"`
-	Contact                    ContactDetails     `json:"contact"`
-	AccessCodes                []AccessCodesModel `json:"access_codes"`
-	EndCustomerTimeWindowStart time.Time          `json:"end_customer_time_window_start,omitempty"`
-	EndCustomerTimeWindowEnd   time.Time          `json:"end_customer_time_window_end,omitempty"`
+	PackageType        PackageType    `json:"package_type"`
+	PackageDescription string         `json:"package_description"`
+	ClientReference    string         `json:"client_reference"`
+	Address            string         `json:"address"`
+	Comment            string         `json:"comment,omitempty"`
+	Contact            ContactDetails `json:"contact"`
+	//	AccessCodes                []AccessCodesModel `json:"access_codes"`
+	EndCustomerTimeWindowStart time.Time `json:"end_customer_time_window_start,omitempty"`
+	EndCustomerTimeWindowEnd   time.Time `json:"end_customer_time_window_end,omitempty"`
 }
 
 type AccessCodesModel struct {
