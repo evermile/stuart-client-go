@@ -18,7 +18,7 @@ type JobRequestModel struct {
 }
 
 type JobModel struct {
-	PickupAt        time.Time             `json:"pickup_at"`
+	PickupAt        *time.Time            `json:"pickup_at"`
 	AssignmentCode  string                `json:"assignment_code"`
 	ClientReference string                `json:"client_reference"`
 	Pickups         []PickupRequestModel  `json:"pickups"`
@@ -67,8 +67,8 @@ type DropoffRequestModel struct {
 	Comment                    string             `json:"comment,omitempty"`
 	Contact                    ContactDetails     `json:"contact"`
 	AccessCodes                []AccessCodesModel `json:"access_codes"`
-	EndCustomerTimeWindowStart time.Time          `json:"end_customer_time_window_start,omitempty"`
-	EndCustomerTimeWindowEnd   time.Time          `json:"end_customer_time_window_end,omitempty"`
+	EndCustomerTimeWindowStart *time.Time         `json:"end_customer_time_window_start,omitempty"`
+	EndCustomerTimeWindowEnd   *time.Time         `json:"end_customer_time_window_end,omitempty"`
 }
 
 type AccessCodesModel struct {
