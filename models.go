@@ -173,6 +173,7 @@ type DeliveriesResponseModel struct {
 	Cancellation       CancellationResponseModel  `json:"cancellation"`
 	Eta                EtaModel                   `json:"eta"`
 	Proof              ProofModel                 `json:"proof"`
+	ProofOfDeliveryUrl string                     `json:"proof_of_delivery_url"`
 }
 
 type TimeSlotModel struct {
