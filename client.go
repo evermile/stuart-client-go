@@ -15,8 +15,9 @@ type ClientWrapper struct {
 
 func StuartResponseHandler(resp *http.Response) error {
 	type errorResponse struct {
-		Error   string `json:"error"`
-		Message string `json:"message"`
+		Error   string                  `json:"error"`
+		Message string                  `json:"message"`
+		Data    *map[string]interface{} `json:"data"`
 	}
 
 	statusErr := requests.CheckStatus(
@@ -31,6 +32,9 @@ func StuartResponseHandler(resp *http.Response) error {
 	}
 	var placeholder errorResponse
 	statusErr = requests.ToJSON(&placeholder)(resp)
+	if placeholder.Data != nil {
+		return fmt.Errorf("%s: %s, %+v", placeholder.Error, placeholder.Message, *placeholder.Data)
+	}
 	return fmt.Errorf("%s: %s", placeholder.Error, placeholder.Message)
 }
 
