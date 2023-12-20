@@ -59,6 +59,22 @@ func (c ClientWrapper) GetJobOriginEta(ctx context.Context, model JobRequestMode
 	return resp.Eta, nil
 }
 
+func (c ClientWrapper) GetJobDropoffEta(ctx context.Context, model JobRequestModel) (int, error) {
+	type cptResponse struct {
+		Seconds int `json:"seconds""`
+	}
+
+	builder := c.newRequest("/v2/jobs/cpt").
+		BodyJSON(model)
+
+	var resp cptResponse
+	if err := builder.ToJSON(&resp).Fetch(ctx); err != nil {
+		return 0, err
+	}
+
+	return resp.Seconds, nil
+}
+
 func (c ClientWrapper) GetJobs(ctx context.Context, options GetJobsOptions) ([]JobResponseModel, error) {
 
 	builder := c.newRequest("/v2/jobs/").
