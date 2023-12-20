@@ -16,6 +16,7 @@ type ClientInterface interface {
 	GetJobPricing(ctx context.Context, model JobRequestModel) (*PricingProposalModel, error)
 	ValidateJobParameters(ctx context.Context, model JobRequestModel) (bool, error)
 	GetJobOriginEta(ctx context.Context, model JobRequestModel) (int, error)
+	GetJobDropoffEta(ctx context.Context, model JobRequestModel) (int, error)
 	GetJobs(ctx context.Context, options GetJobsOptions) ([]JobResponseModel, error)
 	GetJob(ctx context.Context, jobId string) (*JobResponseModel, error)
 	GetSchedulingSlots(ctx context.Context, zone string, requestType RequestType, date string) (*SchedulingSlotsResponseModel, error)
