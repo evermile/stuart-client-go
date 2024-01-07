@@ -3,10 +3,21 @@ package stuartclient
 import "time"
 
 type RequestType string
+type StuartRestrictedItem string
 
 const (
 	PickupType  RequestType = "picking"
 	DropoffType RequestType = "delivering"
+
+	TOBACCO   StuartRestrictedItem = "TOBACCO"
+	LOTTERY   StuartRestrictedItem = "LOTTERY"
+	KNIVES    StuartRestrictedItem = "KNIVES"
+	FIREWORKS StuartRestrictedItem = "FIREWORKS"
+	SOLVENTS  StuartRestrictedItem = "SOLVENTS"
+	BUTANE    StuartRestrictedItem = "BUTANE"
+	ALCOHOL   StuartRestrictedItem = "ALCOHOL"
+	SUNBEDS   StuartRestrictedItem = "SUNBEDS"
+	OTHER     StuartRestrictedItem = "OTHER"
 )
 
 /**
@@ -60,15 +71,16 @@ type PickupRequestModel struct {
 }
 
 type DropoffRequestModel struct {
-	PackageType                PackageType        `json:"package_type"`
-	PackageDescription         string             `json:"package_description"`
-	ClientReference            string             `json:"client_reference"`
-	Address                    string             `json:"address"`
-	Comment                    string             `json:"comment,omitempty"`
-	Contact                    ContactDetails     `json:"contact"`
-	AccessCodes                []AccessCodesModel `json:"access_codes"`
-	EndCustomerTimeWindowStart *time.Time         `json:"end_customer_time_window_start,omitempty"`
-	EndCustomerTimeWindowEnd   *time.Time         `json:"end_customer_time_window_end,omitempty"`
+	PackageType                PackageType             `json:"package_type"`
+	PackageDescription         string                  `json:"package_description"`
+	ClientReference            string                  `json:"client_reference"`
+	Address                    string                  `json:"address"`
+	Comment                    string                  `json:"comment,omitempty"`
+	Contact                    ContactDetails          `json:"contact"`
+	AccessCodes                []AccessCodesModel      `json:"access_codes"`
+	EndCustomerTimeWindowStart *time.Time              `json:"end_customer_time_window_start,omitempty"`
+	EndCustomerTimeWindowEnd   *time.Time              `json:"end_customer_time_window_end,omitempty"`
+	RestrictedItems            *[]StuartRestrictedItem `json:"restricted_items,omitempty"`
 }
 
 type AccessCodesModel struct {
